@@ -44,13 +44,6 @@
 		<version>1.7</version>
 		<type>jar</type>
 	</dependency>
-
-	<dependency>
-	  	<groupId>javax.servlet.jsp</groupId>
-	  	<artifactId>jsp-api</artifactId>  
-	  	<version>2.1</version>
-	  	<optional>true</optional>
-    </dependency>	
   </dependencies>
    
   <build>
