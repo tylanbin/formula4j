@@ -50,18 +50,54 @@
 
 package com.google.code.formula4j.core;
 
-import com.google.code.formula4j.type.Formula;
-
 /**
  * Author	David.Liu 
  * Mail		david.liu@exceoon.com
  * copyright	Exceoon corporation
  */
 
-public class FormulaBuilder
-{	
-	public static Formula buildFormula(String formula)
-	{
-		return null;
-	}
+public class FormulaException extends RuntimeException
+{
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -995678521945306040L;
+
+	/**
+     * 
+     */
+    public FormulaException()
+    {
+	    // TODO Auto-generated constructor stub
+    }
+
+	/**
+     * @param message
+     * @param cause
+     */
+    public FormulaException(String message, Throwable cause)
+    {
+	    super(message, cause);
+	    // TODO Auto-generated constructor stub
+    }
+
+	/**
+     * @param message
+     */
+    public FormulaException(String message)
+    {
+	    super(message);
+	    // TODO Auto-generated constructor stub
+    }
+
+	/**
+     * @param cause
+     */
+    public FormulaException(Throwable cause)
+    {
+	    super(cause);
+	    // TODO Auto-generated constructor stub
+    }
+
 }
