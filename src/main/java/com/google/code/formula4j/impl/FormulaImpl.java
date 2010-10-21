@@ -48,10 +48,13 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.core;
+package com.google.code.formula4j.impl;
 
-import com.google.code.formula4j.impl.FormulaImpl;
+import java.util.List;
+
+import com.google.code.formula4j.type.Arguments;
 import com.google.code.formula4j.type.Formula;
+import com.google.code.formula4j.type.MathematicalValue;
 
 /**
  * Author	David.Liu 
@@ -59,12 +62,31 @@ import com.google.code.formula4j.type.Formula;
  * copyright	Exceoon corporation
  */
 
-public class FormulaBuilder
-{	
-	public static Formula buildFormula(String formula)
+public class FormulaImpl implements Formula
+{
+	public FormulaImpl(String formula)
 	{
-		FormulaImpl impl = new FormulaImpl(formula);
 		
-		return impl;
 	}
+
+	@Override
+    public MathematicalValue eval(Arguments arguments)
+    {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public List<String> getArgumentNames()
+    {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public String getName()
+    {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 }
