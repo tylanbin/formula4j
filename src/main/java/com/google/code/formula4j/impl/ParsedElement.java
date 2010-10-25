@@ -48,7 +48,7 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.core;
+package com.google.code.formula4j.impl;
 
 /**
  * Author	David.Liu 
@@ -56,47 +56,53 @@ package com.google.code.formula4j.core;
  * copyright	Exceoon corporation
  */
 
-public class FormulaException extends RuntimeException
+public class ParsedElement
 {
-
+	private int startPos;
+	private int endPos;
+	private String txt;
 	/**
-     * 
+     * @return the startPos
      */
-    private static final long serialVersionUID = -995678521945306040L;
-
-	/**
-     * 
-     */
-    public FormulaException()
+    public int getStartPos()
     {
-	    // TODO Auto-generated constructor stub
+    	return startPos;
     }
-
 	/**
-     * @param message
-     * @param cause
+     * @param startPos the startPos to set
      */
-    public FormulaException(String message, Throwable cause)
+    public void setStartPos(int startPos)
     {
-	    super(message, cause);
-	    // TODO Auto-generated constructor stub
+    	this.startPos = startPos;
     }
-
 	/**
-     * @param message
+     * @return the endPos
      */
-    public FormulaException(String message)
+    public int getEndPos()
     {
-	    super(message);
-	    // TODO Auto-generated constructor stub
+    	return endPos;
     }
-
 	/**
-     * @param cause
+     * @param endPos the endPos to set
      */
-    public FormulaException(Throwable cause)
+    public void setEndPos(int endPos)
     {
-	    super(cause);
-	    // TODO Auto-generated constructor stub
+    	this.endPos = endPos;
     }
+	/**
+     * @return the txt
+     */
+    public String getTxt()
+    {
+    	return txt;
+    }
+	/**
+     * @param txt the txt to set
+     */
+    public void setTxt(String txt)
+    {
+    	this.txt = txt;
+    }
+	
+	
 }
