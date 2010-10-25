@@ -48,10 +48,13 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
+package com.google.code.formula4j.predefine.operator;
 
 import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
+import com.google.code.formula4j.impl.Utils;
+import com.google.code.formula4j.predefine.value.NumericValue;
+import com.google.code.formula4j.type.MathematicalValue;
+import com.google.code.formula4j.type.Operator;
 
 /**
  * Author	David.Liu 
@@ -59,56 +62,58 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public class NumberPlusOperator implements Operator
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	
-	public static final String NUMBER = "0123456789";
-	
-	public static final String UNDERLINE = "_";
-	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
-	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
-	}
-	
-	public static FormulaException createParseException(String formula, int pos)
-    {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
-    }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.Operator#calculate(com.google.code.formula4j.type.MathematicalValue, com.google.code.formula4j.type.MathematicalValue)
+	 */
+	@Override
+	public MathematicalValue calculate(MathematicalValue leftElement,
+	        MathematicalValue rightElement) throws CalculateException
 	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
-	}
-	
-	public static ParsedElement parseVariable(String formula, int currentPos)
-	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
+		if (leftElement.getType() != 1 || rightElement.getType() != 1) {
+			throw Utils.createIncosistentTypeCalculateException();
 		}
 		
-		return null;
+		return new NumericValue(leftElement.getNumericValue() + rightElement.getNumericValue());
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.Operator#getLeftOperandeType()
+	 */
+	@Override
+	public int getLeftOperandeType()
+	{
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.Operator#getName()
+	 */
+	@Override
+	public String getName()
+	{
+		return "plus";
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.Operator#getRightOperandeType()
+	 */
+	@Override
+	public int getRightOperandeType()
+	{
+		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.Operator#getSymbol()
+	 */
+	@Override
+	public String getSymbol()
+	{
+		return "+";
+	}
+
 }

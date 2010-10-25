@@ -48,10 +48,9 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
+package com.google.code.formula4j.type;
 
 import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
 
 /**
  * Author	David.Liu 
@@ -59,56 +58,16 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public interface Operator
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	public String getName();
 	
-	public static final String NUMBER = "0123456789";
+	public String getSymbol();
 	
-	public static final String UNDERLINE = "_";
+	public int getLeftOperandeType();
 	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
+	public int getRightOperandeType();
 	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
-	}
-	
-	public static FormulaException createParseException(String formula, int pos)
-    {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
-    }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
-	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
-	}
-	
-	public static ParsedElement parseVariable(String formula, int currentPos)
-	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
-		}
-		
-		return null;
-	}
-	
+	public MathematicalValue calculate(MathematicalValue leftElement, 
+			MathematicalValue rightElement)throws CalculateException;
 }

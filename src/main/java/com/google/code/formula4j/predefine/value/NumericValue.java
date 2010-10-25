@@ -48,10 +48,9 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
+package com.google.code.formula4j.predefine.value;
 
-import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
+import com.google.code.formula4j.type.MathematicalValue;
 
 /**
  * Author	David.Liu 
@@ -59,56 +58,33 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public class NumericValue implements MathematicalValue
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	
-	public static final String NUMBER = "0123456789";
-	
-	public static final String UNDERLINE = "_";
-	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
-	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
+	public NumericValue(double value)
+	{
+		this.value = value;
 	}
 	
-	public static FormulaException createParseException(String formula, int pos)
+	private double value;
+	@Override
+    public double getNumericValue()
     {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
+	    // TODO Auto-generated method stub
+	    return value;
     }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
-	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
-	}
-	
-	public static ParsedElement parseVariable(String formula, int currentPos)
-	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
-		}
-		
-		return null;
-	}
-	
+
+	@Override
+    public int getType()
+    {
+	    // TODO Auto-generated method stub
+	    return 1;
+    }
+
+	@Override
+    public Object getValue()
+    {
+	    // TODO Auto-generated method stub
+	    return value;
+    }
+
 }

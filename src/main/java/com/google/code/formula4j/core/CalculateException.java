@@ -48,10 +48,7 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
-
-import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
+package com.google.code.formula4j.core;
 
 /**
  * Author	David.Liu 
@@ -59,56 +56,48 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public class CalculateException extends FormulaException
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	
-	public static final String NUMBER = "0123456789";
-	
-	public static final String UNDERLINE = "_";
-	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
-	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
-	}
-	
-	public static FormulaException createParseException(String formula, int pos)
-    {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
-    }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 8361057865165746179L;
+
+	/**
+	 * 
+	 */
+	public CalculateException()
 	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
+		// TODO Auto-generated constructor stub
 	}
-	
-	public static ParsedElement parseVariable(String formula, int currentPos)
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public CalculateException(String message, Throwable cause)
 	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
-		}
-		
-		return null;
+		super(message, cause);
+		// TODO Auto-generated constructor stub
 	}
-	
+
+	/**
+	 * @param message
+	 */
+	public CalculateException(String message)
+	{
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param cause
+	 */
+	public CalculateException(Throwable cause)
+	{
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
 }

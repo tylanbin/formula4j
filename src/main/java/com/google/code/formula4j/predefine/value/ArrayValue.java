@@ -48,10 +48,12 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
+package com.google.code.formula4j.predefine.value;
 
-import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.code.formula4j.type.MathematicalValue;
 
 /**
  * Author	David.Liu 
@@ -59,56 +61,63 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public class ArrayValue<T> implements MathematicalValue
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	public static final int TYPE = 7;
+	public static final String KEY = "arrayValue";
+	private List<T> value;
 	
-	public static final String NUMBER = "0123456789";
-	
-	public static final String UNDERLINE = "_";
-	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
-	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
-	}
-	
-	public static FormulaException createParseException(String formula, int pos)
-    {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
-    }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
+	public ArrayValue(List<T> list)
 	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
+		if (list != null)
+			this.value = list;
 	}
 	
-	public static ParsedElement parseVariable(String formula, int currentPos)
+	public ArrayValue()
 	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
-		}
-		
-		return null;
+		this.value = new ArrayList<T>(10);
 	}
 	
+	public void addValues(List<T> list)
+	{
+		this.value.addAll(list);
+	}
+
+	public void addValue(T value)
+	{
+		this.value.add(value);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getNumericValue()
+	 */
+	@Override
+	public double getNumericValue()
+	{
+		return this.value.size();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getType()
+	 */
+	@Override
+	public int getType()
+	{
+		return TYPE;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getValue()
+	 */
+	@Override
+	public Object getValue()
+	{
+		return this.value;
+	}
+
+	public String toString()
+	{
+		return String.valueOf(value);
+	}
 }

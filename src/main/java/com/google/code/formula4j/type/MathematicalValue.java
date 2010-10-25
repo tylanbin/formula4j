@@ -56,7 +56,11 @@ package com.google.code.formula4j.type;
  * copyright	Exceoon corporation
  */
 
-public interface MathematicalValue
+public interface MathematicalValue 
 {
-
+	public Object getValue();
+	
+	public double getNumericValue();
+	
+	public int getType();
 }
