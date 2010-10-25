@@ -64,9 +64,11 @@ import com.google.code.formula4j.type.MathematicalValue;
 
 public class FormulaImpl implements Formula
 {
+	private String formula;
+	
 	public FormulaImpl(String formula)
 	{
-		
+		this.formula = formula;
 	}
 
 	@Override
@@ -89,4 +91,113 @@ public class FormulaImpl implements Formula
 	    // TODO Auto-generated method stub
 	    return null;
     }
+	
+	private void doParse()
+	{
+		FormulaMode formulaMode = new FormulaMode();
+		
+		int currentPos = 0;
+		int startPos = 0;
+		
+		System.out.println("Parse function name ");
+		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(0)) != -1) {
+			currentPos ++;
+			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
+				currentPos ++;
+			}
+		}
+		
+		if (currentPos == startPos) {		
+			throw Utils.createParseException(formula, currentPos);
+		}
+		
+		String functionName = formula.substring(startPos,currentPos);		
+		formulaMode.setName(functionName);
+		
+		String parameterName;
+		
+		System.out.println("Parse parameter name ");
+		if (Utils.checkEnd(formula,currentPos) &&
+				formula.charAt(currentPos) == '(') {
+			
+			currentPos ++ ;
+			startPos = currentPos;
+			
+			if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {				
+				currentPos ++;
+					
+				while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
+					currentPos ++;
+				}
+				
+				if (currentPos == startPos) {		
+					throw Utils.createParseException(formula, currentPos);
+				}
+				
+				parameterName = formula.substring(startPos,currentPos);					
+				formulaMode.addArgumentName(parameterName);
+				
+				while(Utils.checkEnd(formula,currentPos) && formula.charAt(currentPos) == ',')
+				{
+					currentPos ++;	
+					startPos = currentPos;
+					
+					if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
+						currentPos ++;
+						
+						while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
+							currentPos ++;
+						}
+						
+						parameterName = formula.substring(startPos,currentPos);							
+						formulaMode.addArgumentName(parameterName);
+					}
+					
+					if (currentPos == startPos) {		
+						throw Utils.createParseException(formula, currentPos);
+					}
+				}
+			}
+		}
+		else
+		{
+			throw Utils.createParseException(formula, currentPos);
+		}
+		
+		if(!(Utils.checkEnd(formula,currentPos) &&
+				formula.charAt(currentPos) == ')'))
+		{
+			throw Utils.createParseException(formula, currentPos);
+		}
+		
+		currentPos ++;
+		
+		if(Utils.checkEnd(formula, currentPos) &&
+				formula.charAt(currentPos) == '=')
+		{
+			currentPos ++;
+			
+		}
+		else
+		{
+			throw Utils.createParseException(formula, currentPos);
+		}
+		
+		System.out.println(formulaMode.toString());
+	}
+	
+	public static void main(String[] args)
+	{
+		String formula = "sin(x,y,z_1)=1111";
+		FormulaImpl impl = new FormulaImpl(formula);
+		try
+		{
+			impl.doParse();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+	}
 }

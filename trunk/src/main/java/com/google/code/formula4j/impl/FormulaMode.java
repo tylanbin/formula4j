@@ -48,7 +48,12 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.core;
+package com.google.code.formula4j.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.code.formula4j.core.FormulaException;
 
 /**
  * Author	David.Liu 
@@ -56,47 +61,42 @@ package com.google.code.formula4j.core;
  * copyright	Exceoon corporation
  */
 
-public class FormulaException extends RuntimeException
+public class FormulaMode
 {
-
+	private String name;
+	private List<String> argumentNames = new ArrayList<String>(5);
 	/**
-     * 
+     * @return the name
      */
-    private static final long serialVersionUID = -995678521945306040L;
-
-	/**
-     * 
-     */
-    public FormulaException()
+    public String getName()
     {
-	    // TODO Auto-generated constructor stub
+    	return name;
     }
-
 	/**
-     * @param message
-     * @param cause
+     * @param name the name to set
      */
-    public FormulaException(String message, Throwable cause)
+    public void setName(String name)
     {
-	    super(message, cause);
-	    // TODO Auto-generated constructor stub
+    	this.name = name;
     }
-
 	/**
-     * @param message
+     * @return the argumentNames
      */
-    public FormulaException(String message)
+    public List<String> getArgumentNames()
     {
-	    super(message);
-	    // TODO Auto-generated constructor stub
+    	return argumentNames;
     }
-
-	/**
-     * @param cause
-     */
-    public FormulaException(Throwable cause)
-    {
-	    super(cause);
-	    // TODO Auto-generated constructor stub
-    }
+	
+	public void addArgumentName(String name)
+	{
+		if(this.argumentNames.contains(name))
+			throw new FormulaException("argument["+name+"] is duplicated.");
+		
+		this.argumentNames.add(name);
+	}
+	
+	public String toString()
+	{
+		return "N:[" + this.name + "] P:[" + this.argumentNames + "]";
+	}
 }

@@ -48,7 +48,9 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.core;
+package com.google.code.formula4j.impl;
+
+import com.google.code.formula4j.core.FormulaException;
 
 /**
  * Author	David.Liu 
@@ -56,47 +58,51 @@ package com.google.code.formula4j.core;
  * copyright	Exceoon corporation
  */
 
-public class FormulaException extends RuntimeException
+public class Utils
 {
-
-	/**
-     * 
-     */
-    private static final long serialVersionUID = -995678521945306040L;
-
-	/**
-     * 
-     */
-    public FormulaException()
+	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	
+	public static final String NUMBER = "0123456789";
+	
+	public static final String UNDERLINE = "_";
+	
+	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
+	
+	public static boolean checkEnd(String str,int pos) {
+		int length = str.length();
+		if (pos >= length || pos < 0) {
+			return false;
+		}		
+		return true;
+	}
+	
+	public static FormulaException createParseException(String formula, int pos)
     {
-	    // TODO Auto-generated constructor stub
+    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
     }
-
-	/**
-     * @param message
-     * @param cause
-     */
-    public FormulaException(String message, Throwable cause)
-    {
-	    super(message, cause);
-	    // TODO Auto-generated constructor stub
-    }
-
-	/**
-     * @param message
-     */
-    public FormulaException(String message)
-    {
-	    super(message);
-	    // TODO Auto-generated constructor stub
-    }
-
-	/**
-     * @param cause
-     */
-    public FormulaException(Throwable cause)
-    {
-	    super(cause);
-	    // TODO Auto-generated constructor stub
-    }
+	
+	public static ParsedElement parseVariable(String formula, int currentPos)
+	{
+		int startPos = currentPos;
+		
+		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
+			currentPos ++;
+			
+			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
+				currentPos ++;
+			}
+			
+			String parameterName = formula.substring(startPos,currentPos);	
+			
+			ParsedElement ele = new ParsedElement();
+			ele.setTxt(parameterName);
+			ele.setEndPos(currentPos);
+			ele.setStartPos(startPos);
+			
+			return ele;
+		}
+		
+		return null;
+	}
+	
 }
