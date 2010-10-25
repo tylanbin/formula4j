@@ -48,10 +48,9 @@
  * <http://www.Exceoon.com/>.
  */
 
-package com.google.code.formula4j.impl;
+package com.google.code.formula4j.predefine.value;
 
-import com.google.code.formula4j.core.CalculateException;
-import com.google.code.formula4j.core.FormulaException;
+import com.google.code.formula4j.type.MathematicalValue;
 
 /**
  * Author	David.Liu 
@@ -59,56 +58,43 @@ import com.google.code.formula4j.core.FormulaException;
  * copyright	Exceoon corporation
  */
 
-public class Utils
+public class BooleanValue implements MathematicalValue
 {
-	public static final String LETTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	public final static String BOOLEAN_VALUE = "BoleanValue"; 
+	public final int TYPE = 6;
 	
-	public static final String NUMBER = "0123456789";
+	private boolean booleanValue;
 	
-	public static final String UNDERLINE = "_";
-	
-	public static final String VARIBLE = LETTER + NUMBER + UNDERLINE;	
-	
-	public static boolean checkEnd(String str,int pos) {
-		int length = str.length();
-		if (pos >= length || pos < 0) {
-			return false;
-		}		
-		return true;
-	}
-	
-	public static FormulaException createParseException(String formula, int pos)
-    {
-    	return new FormulaException("Invalid expression <"+formula+"> at " + pos);
-    }
-	
-	public static CalculateException createIncosistentTypeCalculateException()
+	public BooleanValue(boolean value)
 	{
-		return new CalculateException("Incosistent element type for operator plus real real.");
+		super();
+		this.booleanValue = Boolean.valueOf(value);
 	}
-	
-	public static ParsedElement parseVariable(String formula, int currentPos)
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getNumericValue()
+	 */
+	@Override
+	public double getNumericValue()
 	{
-		int startPos = currentPos;
-		
-		if (Utils.checkEnd(formula,0) && Utils.LETTER.indexOf(formula.charAt(currentPos)) != -1) {						
-			currentPos ++;
-			
-			while (Utils.checkEnd(formula,currentPos) && Utils.VARIBLE.indexOf(formula.charAt(currentPos)) != -1) {
-				currentPos ++;
-			}
-			
-			String parameterName = formula.substring(startPos,currentPos);	
-			
-			ParsedElement ele = new ParsedElement();
-			ele.setTxt(parameterName);
-			ele.setEndPos(currentPos);
-			ele.setStartPos(startPos);
-			
-			return ele;
-		}
-		
-		return null;
+		return booleanValue?1:0;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getType()
+	 */
+	@Override
+	public int getType()
+	{
+		return TYPE;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.google.code.formula4j.type.MathematicalValue#getValue()
+	 */
+	@Override
+	public Object getValue()
+	{
+		return this.booleanValue;
+	}
+
 }
